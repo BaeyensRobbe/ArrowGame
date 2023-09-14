@@ -1,14 +1,20 @@
+using System;
 using System.Diagnostics;
 using UnityEngine;
 
-public class ChainSpwaner : MonoBehaviour
+public class ChainSpawner : MonoBehaviour
 {
-    public GameObject objectToSpawn; // The object to spawn
+    public GameObject[] objectsToSpawn; // The object to spawn
     public float initialSpawnRate = 3f; // The initial rate at which to spawn the objects
     private float timer; // A timer to control the spawn rate
     public float minDistanceToPlayer;
 
-   
+
+    public RectTransform[] blockingUIElements;
+
+
+
+
 
     void Update()
     {
@@ -16,7 +22,7 @@ public class ChainSpwaner : MonoBehaviour
         timer += Time.deltaTime;
 
         // Calculate a dynamic spawn rate based on game time
-         // Adjust 600f for desired time scaling
+        // Adjust 600f for desired time scaling
 
         // Check if it's time to spawn an object
         if (timer >= initialSpawnRate)
@@ -57,12 +63,45 @@ public class ChainSpwaner : MonoBehaviour
             // Check if the distance between the player and the spawn point is greater than the minimum distance
             if (Vector3.Distance(playerPosition, randomPosition) > minDistanceToPlayer)
             {
-                validSpawnPointFound = true;
+                if (IsNotBlockedByUI(randomPosition))
+                {
+                    validSpawnPointFound = true;
+                }
+                
+
             }
         }
 
         // Instantiate the enemy at the valid random position
+        int randomIndex = UnityEngine.Random.Range(0, objectsToSpawn.Length);
+        GameObject objectToSpawn = objectsToSpawn[randomIndex];
         GameObject spawnedObject = Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
+        /*spawnedObject.transform.SetParent(transform, false);*/
 
     }
+
+    public bool IsNotBlockedByUI(Vector3 randomPosition)
+    {
+        foreach (RectTransform rectTransform in blockingUIElements)
+        {
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, randomPosition, null, out localPoint);
+
+            Rect expandedRect = rectTransform.rect;
+            expandedRect.xMin -= 3f;
+            expandedRect.xMax += 3f;
+
+            if (expandedRect.Contains(localPoint))
+            {
+                return false; // The random position is inside this UI element's bounds
+            }
+        }
+        return true; // The random position is not inside any blocking UI element bounds
+    }
+
+
+
+
+
+
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class Joystick : MonoBehaviour
@@ -11,37 +10,27 @@ public class Joystick : MonoBehaviour
     private Vector2 pointA;
     private Vector2 pointB;
     private float minX, maxX, minY, maxY;
-
-    
-
     public float buffer = 0.1f;
 
+    private ChainSpawner chainspawner;
     private SpriteRenderer spriteRenderer;
-
-    /*public Transform circle;
-    public Transform outerCircle;*/
 
     void Start()
     {
-        spriteRenderer = player.GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
+        spriteRenderer = player.GetComponent<SpriteRenderer>();
+        chainspawner = GameObject.Find("PowerUpSpawner").GetComponent<ChainSpawner>();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            touchStart = true;
             pointA = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z));
-
-            /*circle.transform.position = pointA * -1;
-            outerCircle.transform.position = pointA * -1;
-            circle.GetComponent<SpriteRenderer>().enabled = true;
-            outerCircle.GetComponent<SpriteRenderer>().enabled = true;*/
         }
+
         if (Input.GetMouseButton(0))
         {
-            touchStart = true;
             pointB = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z));
         }
         else
@@ -50,8 +39,8 @@ public class Joystick : MonoBehaviour
         }
 
         CalculateCameraBoundaries();
-
     }
+
     private void FixedUpdate()
     {
         if (touchStart)
@@ -59,25 +48,45 @@ public class Joystick : MonoBehaviour
             Vector2 offset = pointB - pointA;
             Vector2 direction = Vector2.ClampMagnitude(offset, 1.0f);
             moveCharacter(direction);
-
-            
         }
-        
-
+        else
+        {
+            // If the joystick is not touched, stop the player's movement
+            moveCharacter(Vector2.zero);
+        }
     }
 
     void moveCharacter(Vector2 direction)
     {
         Vector3 newPosition = player.position + new Vector3(direction.x, direction.y, 0) * speed * Time.deltaTime;
-        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
-        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
-        player.position = newPosition;
+        if (direction != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            spriteRenderer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+        if (chainspawner.IsNotBlockedByUI(newPosition))
+        {
+            // Clamp the new player position to stay within camera boundaries
+            newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+            newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+            player.position = newPosition;
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            
+        }
+        else
+        {
+            // The new position is blocked by UI in the vertical direction, so only move horizontally
+            newPosition = player.position + new Vector3(direction.x, 0, 0) * speed * Time.deltaTime;
 
-        // Apply the rotation to the sprite
-        spriteRenderer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            // Check if the new horizontal position is not blocked by UI elements
+            if (chainspawner.IsNotBlockedByUI(newPosition))
+            {
+                // Update the player's position in the horizontal direction
+                player.position = newPosition;
+            }
+        }
     }
+
 
     void CalculateCameraBoundaries()
     {
@@ -89,6 +98,4 @@ public class Joystick : MonoBehaviour
         minY = bottomLeft.y + buffer;
         maxY = topRight.y - buffer;
     }
-
-    
 }

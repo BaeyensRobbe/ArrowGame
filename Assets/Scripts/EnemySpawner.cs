@@ -7,9 +7,19 @@ public class EnemySpawner : MonoBehaviour
     public float initialSpawnRate = 3f; // The initial rate at which to spawn the objects
     private float timer; // A timer to control the spawn rate
     public float minDistanceToPlayer;
+    private ChainSpawner chainSpawner;
 
     [SerializeField]
     private Color[] randomColors;
+
+    void Start()
+    {
+        chainSpawner = GameObject.Find("PowerUpSpawner").GetComponent<ChainSpawner>();
+        if (chainSpawner != null )
+        {
+            UnityEngine.Debug.Log("ChainSpawner found");
+        }
+    }
 
     void Update()
     {
@@ -58,7 +68,11 @@ public class EnemySpawner : MonoBehaviour
             // Check if the distance between the player and the spawn point is greater than the minimum distance
             if (Vector3.Distance(playerPosition, randomPosition) > minDistanceToPlayer)
             {
-                validSpawnPointFound = true;
+                if (chainSpawner.IsNotBlockedByUI(randomPosition))
+                {
+                    validSpawnPointFound = true;
+                }
+                
             }
         }
 

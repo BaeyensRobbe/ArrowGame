@@ -60,4 +60,12 @@ public class PlayerController : MonoBehaviour
         playerSpriteRenderer.sprite = originalPlayerSprite;
         transform.rotation = Quaternion.identity; // Reset rotation
     }
+
+    public void ResetPlayerPosition(Vector3 position)
+    {
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+    }
+
+
 }
