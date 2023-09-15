@@ -1,11 +1,15 @@
 using System.Diagnostics;
 using UnityEngine;
+using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject objectToSpawn; // The object to spawn
     public float initialSpawnRate = 3f; // The initial rate at which to spawn the objects
+    public float maxSpawnRate = 1f; // The maximum spawn rate
+    public float timeToReachMaxRate = 60f; // The time it takes to reach the maximum spawn rate
     private float timer; // A timer to control the spawn rate
+    private float elapsedTime;
     public float minDistanceToPlayer;
     private ChainSpawner chainSpawner;
 
@@ -15,19 +19,18 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         chainSpawner = GameObject.Find("PowerUpSpawner").GetComponent<ChainSpawner>();
-        if (chainSpawner != null )
-        {
-            UnityEngine.Debug.Log("ChainSpawner found");
-        }
+        ResetSpawnRate();
+        StartCoroutine(SpawnObjects());
+
     }
 
-    void Update()
+    /*void Update()
     {
         // Increment the timer
         timer += Time.deltaTime;
 
         // Calculate a dynamic spawn rate based on game time
-        float dynamicSpawnRate = Mathf.Lerp(initialSpawnRate, 1f, Time.time / 60f); // Adjust 600f for desired time scaling
+        float dynamicSpawnRate = Mathf.Lerp(initialSpawnRate, maxSpawnRate, Time.deltaTime / timeToReachMaxRate); // Adjust 600f for desired time scaling
 
         // Check if it's time to spawn an object
         if (timer >= dynamicSpawnRate)
@@ -35,6 +38,35 @@ public class EnemySpawner : MonoBehaviour
             timer = 0f;
             SpawnEnemyWithMinDistance();
         }
+    }*/
+
+    private IEnumerator SpawnObjects()
+    {
+        while (true) // Infinite loop to keep spawning objects
+        {
+            // Calculate a dynamic spawn rate based on elapsed time
+            float dynamicSpawnRate = Mathf.Lerp(initialSpawnRate, maxSpawnRate, elapsedTime / timeToReachMaxRate);
+
+            // Spawn objects based on the dynamic spawn rate
+            SpawnEnemyWithMinDistance();
+
+            // Wait for the inverse of the dynamic spawn rate
+            float waitTime = 1f / dynamicSpawnRate;
+            yield return new WaitForSeconds(waitTime);
+
+            // Update the elapsed time
+            elapsedTime += waitTime;
+        }
+    }
+
+    public void ResetTimer()
+    {
+        timer = 0f;
+    }
+
+    public void ResetSpawnRate()
+    {
+        elapsedTime = 0f; // Reset the elapsed time to reset the spawn rate
     }
 
     private void SpawnEnemyWithMinDistance()
@@ -72,7 +104,7 @@ public class EnemySpawner : MonoBehaviour
                 {
                     validSpawnPointFound = true;
                 }
-                
+
             }
         }
 

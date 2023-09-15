@@ -8,11 +8,11 @@ public class HighScoreDisplay : MonoBehaviour
 
     void Start()
     {
-        highScoreText.text = "Best: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
+        highScoreText.text = "BEST " + PlayerPrefs.GetInt("HighScore", 0).ToString();
     }
 
     void Update()
     {
-        highScoreText.text = "Best: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
+        highScoreText.text = "BEST " + PlayerPrefs.GetInt("HighScore", 0).ToString();
     }
 }

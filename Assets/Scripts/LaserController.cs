@@ -38,6 +38,7 @@ public class LaserController : MonoBehaviour
         {
             EnemyTargetPlayer dyingEnemy = collision.gameObject.GetComponent<EnemyTargetPlayer>();
             dyingEnemy.EnemyDies();
+            
 
         }
     }

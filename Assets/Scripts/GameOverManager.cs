@@ -45,7 +45,6 @@ public class GameOverManager : MonoBehaviour
         {
             pauseButtonPressed = true;
             pausedCanvas.SetActive(true);
-            UnityEngine.Debug.Log("Pause canvas set active");
 
 
         }

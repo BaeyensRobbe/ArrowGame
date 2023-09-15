@@ -14,7 +14,9 @@ public class CollisionHandler : MonoBehaviour
     private float powerUpTime = 5f;
     private GameObject player;
     public AudioSource warningAudio;
-    
+    private bool isShielded;
+
+    EnemySpawner enemySpawner;
     PlayerController playerController;
     ProgressionBar progressionBar;
     CoinsController coinsController;
@@ -31,13 +33,13 @@ public class CollisionHandler : MonoBehaviour
 
     private void Start()
     {
-        UnityEngine.Debug.Log("script started");
+        
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        UnityEngine.Debug.Log("PlayerMovement: GameManager found: " + (gameManager != null));
+        
         coinsController = GameObject.FindGameObjectWithTag("EnemySpawner").GetComponent<CoinsController>();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         timerscript = GameObject.Find("GameManager").GetComponent<TimerScript>();
-        
+        enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
 
     }
 
@@ -45,7 +47,6 @@ public class CollisionHandler : MonoBehaviour
     {
         powerUpActive = true;
         isChainsaw = true;
-        UnityEngine.Debug.Log("Chainsaw power up enabled");
         yield return new WaitForSeconds(powerUpTime);
         isChainsaw = false;
         powerUpActive=false;
@@ -53,18 +54,16 @@ public class CollisionHandler : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        UnityEngine.Debug.Log("Collision detected with: " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if (isChainsaw)
+            if (isChainsaw || isShielded)
             {
                 EnemyTargetPlayer dyingEnemy = collision.gameObject.GetComponent<EnemyTargetPlayer>();
                 dyingEnemy.EnemyDies();
             }
             else
             {
-                UnityEngine.Debug.Log("Game Over triggered!");
-                gameManager.GameOver();
+                gameManager.EndGame();
                 EnemyTargetPlayer[] enemiesgameover = GameObject.FindObjectsOfType<EnemyTargetPlayer>();
                 DestroyObject[] objectsToDestroy = GameObject.FindObjectsOfType<DestroyObject>();
                 foreach (EnemyTargetPlayer enemyScript in enemiesgameover)
@@ -84,6 +83,7 @@ public class CollisionHandler : MonoBehaviour
 
                 playerController.ResetPlayerPosition(playerSpawnPosition);
                 timerscript.ResetTimer();
+                enemySpawner.ResetTimer();
             }
 
         }
@@ -95,8 +95,6 @@ public class CollisionHandler : MonoBehaviour
             {
                 StartCoroutine(EnableChainsawPowerUp());
 
-                UnityEngine.Debug.Log("collision detected with chainsaw");
-
                 EnemyTargetPlayer[] enemyplayers = GameObject.FindObjectsOfType<EnemyTargetPlayer>();
                 playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
                 progressionBar = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ProgressionBar>();
@@ -104,7 +102,6 @@ public class CollisionHandler : MonoBehaviour
 
                 if (playerController != null)
                 {
-                    UnityEngine.Debug.Log("PlayerController found");
                     playerController.spriteToChainsaw(powerUpTime);
                 }
 
@@ -136,12 +133,13 @@ public class CollisionHandler : MonoBehaviour
         {
             Instantiate(shieldPrefab, transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
+            isShielded = true;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D trigger2D)
     {
-        if (!isChainsaw)
+        if (!isChainsaw && !isShielded)
         {
             if (trigger2D.CompareTag("Enemy"))
             {
@@ -154,6 +152,17 @@ public class CollisionHandler : MonoBehaviour
             }
         }
         
+    }
+
+    public void isNotShielded()
+    {
+        StartCoroutine(SetShieldedToFalse());
+    }
+
+    private IEnumerator SetShieldedToFalse()
+    {
+        yield return new WaitForSeconds(1f);
+        isShielded = false;
     }
 
 }

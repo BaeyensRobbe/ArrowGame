@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8807589817862801938}
   - component: {fileID: 44363883914822693}
   - component: {fileID: -2487977796058942129}
+  - component: {fileID: -2005710495226801289}
   m_Layer: 0
   m_Name: LaserAnimation
   m_TagString: Untagged
@@ -101,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
+  enemyTargetPlayer: {fileID: 0}
 --- !u!61 &44363883914822693
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -242,6 +244,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-2005710495226801289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979989407104983824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a25d6022a5147d4494c921de0637039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4023380472676701292
 GameObject:
   m_ObjectHideFlags: 0

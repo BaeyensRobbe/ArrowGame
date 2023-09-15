@@ -89,7 +89,6 @@ public class EnemyTargetPlayer : MonoBehaviour
     // Call this method to reverse the enemy's direction for 5 seconds
     public void ReverseDirection(float powerUpTime)
     {
-        UnityEngine.Debug.Log("ReverseDirection called");
         if (!isReversingDirection)
         {
             StartCoroutine(ReverseDirectionForSeconds(powerUpTime));
@@ -105,7 +104,6 @@ public class EnemyTargetPlayer : MonoBehaviour
 
     public void EnemyDies()
     {
-        UnityEngine.Debug.Log("Enemy dies");
         coinsController = GameObject.FindGameObjectWithTag("EnemySpawner").GetComponent<CoinsController>();
         coinsController.IncrementCoinCount(coinValue);
 

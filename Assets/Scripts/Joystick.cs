@@ -71,7 +71,7 @@ public class Joystick : MonoBehaviour
             newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
             player.position = newPosition;
 
-            
+
         }
         else
         {

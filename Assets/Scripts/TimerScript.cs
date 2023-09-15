@@ -27,8 +27,11 @@ public class TimerScript : MonoBehaviour
     public void ResetTimer()
     {
         gamemanager.UpdateHighScore((int)score);
+        PlayerPrefs.SetInt("CurrentScore", (int)score);
         score = 0f;
     }
+
+    
 
     
 }

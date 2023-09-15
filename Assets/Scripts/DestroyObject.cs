@@ -9,4 +9,12 @@ public class DestroyObject : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void DestroyParentObject()
+    {
+        if (transform.parent != null)
+        {
+            Destroy(transform.parent.gameObject);
+        }
+    }
 }

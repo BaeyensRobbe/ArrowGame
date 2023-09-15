@@ -12,6 +12,7 @@ TagManager:
   - Coin
   - ShieldIcon
   - Game
+  - ShieldCircle
   layers:
   - Default
   - TransparentFX

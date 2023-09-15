@@ -88,8 +88,8 @@ public class ChainSpawner : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, randomPosition, null, out localPoint);
 
             Rect expandedRect = rectTransform.rect;
-            expandedRect.xMin -= 3f;
-            expandedRect.xMax += 3f;
+            expandedRect.xMin -= 100f;
+            expandedRect.xMax += 100f;
 
             if (expandedRect.Contains(localPoint))
             {

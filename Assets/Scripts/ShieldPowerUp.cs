@@ -6,14 +6,23 @@ public class ShieldPowerUp : MonoBehaviour
 {
     public float destroyRadius = 5f;
     public GameObject destructionParticlePrefab;
+    private CollisionHandler collisionHandler;
 
     private GameObject player;
     private Transform playerTransform;
+
+    public GameObject shieldCircle;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerTransform = player.GetComponent<Transform>();
+        collisionHandler = GameObject.Find("Player").GetComponent<CollisionHandler>();
+        /*shieldCircle = GameObject.FindGameObjectWithTag("ShieldCircle");
+        if (shieldCircle != null)
+        {
+            UnityEngine.Debug.Log("ShieldCirce found");
+        }*/
     }
 
     void Update()
@@ -28,7 +37,12 @@ public class ShieldPowerUp : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            ShieldDestroyed();
+            /*ShieldDestroyed();*/
+            Destroy(gameObject);
+            Instantiate(shieldCircle, transform.position, Quaternion.identity);
+            
+            collisionHandler.isNotShielded();
+            
         }
     }
 
@@ -36,7 +50,6 @@ public class ShieldPowerUp : MonoBehaviour
     {
         // Find all enemy objects within the specified radius.
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, destroyRadius);
-
         foreach (Collider2D collider in colliders)
         {
             // Check if the collider has an EnemyTargetPlayer component.
@@ -51,7 +64,7 @@ public class ShieldPowerUp : MonoBehaviour
 
         // Destroy this object (the shield).
         Destroy(gameObject);
-
+        Instantiate(shieldCircle, transform.position, Quaternion.identity);
         if (destructionParticlePrefab != null)
         {
             destructionParticlePrefab.SetActive(true);
