@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +15,13 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
     private bool isStartMenu = true;
 
+    private bool isSoundOn = true;
+
     private int highScore;
+    public float minSwipeDistance = 50f; // Minimum distance required for a swipe
+
+    private Vector2 touchStartPos;
+    private Vector2 touchEndPos;
 
     CanvasHandler canvasHandler;
     
@@ -33,26 +41,60 @@ public class GameManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         canvasHandler = GameObject.Find("GameManager").GetComponent<CanvasHandler>();
         
-        
+
     }
 
     void Update()
     {
-        
+
         if (isStartMenu)
         {
             if (Time.timeScale == 0f)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-
-                    StartGame();
+                    touchStartPos = Input.mousePosition;
                 }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    touchEndPos = Input.mousePosition;
+                    float swipeDistance = Vector2.Distance(touchStartPos, touchEndPos);
+
+                    if (swipeDistance >= minSwipeDistance)
+                    {
+                        
+                        UnityEngine.Debug.Log("Slight swipe detected!");
+                        StartGame();
+                    }
+                }
+
+
+                /*if (Input.GetMouseButtonDown(0))
+                {
+                    StartGame();
+                }*/
             }
         }
         CanvasHandler();
 
     }
+
+    public bool GetIsSoundOn()
+    {
+        return isSoundOn;
+    }
+
+
+    public void ToggleSound()
+    {
+        isSoundOn = !isSoundOn;
+
+        // Mute or unmute all audio in the scene
+        AudioListener.pause = !isSoundOn;
+    }
+
+
 
     public void UpdateHighScore(int newScore)
     {
@@ -124,7 +166,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    private void CanvasHandler()
+    public void CanvasHandler()
     {
         canvasHandler.HandleCanvas(isStartMenu, isPaused, isGameOver, isPlaying);
     }

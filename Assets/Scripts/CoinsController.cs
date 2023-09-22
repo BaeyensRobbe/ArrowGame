@@ -8,6 +8,7 @@ public class CoinsController : MonoBehaviour
 {
     public UnityEngine.UI.Text coinText;
     
+    
     private int coinCount = 0;
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,10 @@ public class CoinsController : MonoBehaviour
 
     public void IncrementCoinCount(int amount)
     {
+        if (PlayerPrefs.GetInt("Skin") == 4)
+        {
+            amount = amount * 2;
+        }
         /*UnityEngine.Debug.Log("Incrementing coin count by " + amount);*/
         coinCount += amount;
         PlayerPrefs.SetInt("Coins", coinCount);

@@ -13,6 +13,13 @@ TagManager:
   - ShieldIcon
   - Game
   - ShieldCircle
+  - SpaceShipPrice
+  - SpaceShipPlay
+  - RocketPrice
+  - RocketPlay
+  - DefaultPlay
+  - Play
+  - Price
   layers:
   - Default
   - TransparentFX

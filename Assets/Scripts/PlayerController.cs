@@ -3,18 +3,29 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Sprite[] sprites;    
     public Sprite chainsawSprite;
     public SpriteRenderer playerSpriteRenderer; // Reference to the player's sprite renderer
     private Sprite originalPlayerSprite; // Store the original player sprite
     private float chainsawRotationSpeed = 90f; // Rotation speed in degrees per second
+    private int currentSkin;
 
     public CircleCollider2D largerCollider;
 
     private void Start()
     {
         // Store the original player sprite
-        originalPlayerSprite = playerSpriteRenderer.sprite;
+        
         largerCollider.enabled = false;
+        currentSkin = PlayerPrefs.GetInt("Skin");
+        if (currentSkin == null)
+        {
+            currentSkin = 0;
+        }
+        playerSpriteRenderer.sprite = sprites[currentSkin];
+        originalPlayerSprite = playerSpriteRenderer.sprite;
+        
+
     }
 
     // Call this method to change the player's sprite to the chainsaw sprite for a specified duration
