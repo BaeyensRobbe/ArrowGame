@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    ButtonManager buttonManager;
+
     public void ChangeToShopScene()
     {
         SceneManager.LoadScene("Shop");
@@ -14,5 +16,6 @@ public class SceneChanger : MonoBehaviour
     public void ChangeToGameScene()
     {
         SceneManager.LoadScene("Game");
+        
     }
 }

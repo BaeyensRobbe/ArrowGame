@@ -2451,6 +2451,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3814997084924669240, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
   m_PrefabInstance: {fileID: 643646993552752362}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1143901951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789501644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f7e4fea087dce41bffb3462329c718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 342597143096240248, guid: a1baee0891c289840a894e5b7ad641c2, type: 3}
+  firePoint: {fileID: 1143901950}
+  shootInterval: 2
+  bombPrefab: {fileID: 7872216215482632016, guid: c8becac08d5b72441a56e423957b91ea, type: 3}
+  bombInterval: 5
 --- !u!1 &1159868404
 GameObject:
   m_ObjectHideFlags: 0
@@ -3607,7 +3624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1840993264
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3915,7 +3932,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2080749460
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4126,7 +4143,10 @@ PrefabInstance:
     - {fileID: 8394202622411636053, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7991995252803003793, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1143901951}
   m_SourcePrefab: {fileID: 100100000, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
 --- !u!4 &1184797598137193515 stripped
 Transform:

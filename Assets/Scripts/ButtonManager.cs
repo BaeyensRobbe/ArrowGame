@@ -8,11 +8,33 @@ public class ButtonManager : MonoBehaviour
     public GameObject[] PlayButtons;
     public GameObject[] PriceButtons;
     SceneChanger sceneManager;
+
+    public GameObject rocketPriceButton;
+    public GameObject rocketPlayButton;
+
+    public GameObject ufoPriceButton;
+    public GameObject ufoPlayButton;
+
+    public GameObject doubleCoinsPriceButton;
+    public GameObject doubleCoinsPlayButton;
+
+    public GameObject spaceShipPriceButton;
+    public GameObject spaceShipPlayButton;
+
+
     // Start is called before the first frame update
     void Start()
     {
         sceneManager = GameObject.Find("SceneManager").GetComponent<SceneChanger>();
-        GameObject[] playButtons = GameObject.FindGameObjectsWithTag("Play");
+        checkRocketButtons();
+        checkSpaceShipButtons();
+        checkUfoButtons();
+        checkDoubeCoinsButtons();
+
+        
+
+
+        /*GameObject[] playButtons = GameObject.FindGameObjectsWithTag("Play");
         GameObject[] priceButtons = GameObject.FindGameObjectsWithTag("Price");
         if (playButtons != null)
         {
@@ -20,6 +42,8 @@ public class ButtonManager : MonoBehaviour
             UnityEngine.Debug.Log(playButtons[0]);
             UnityEngine.Debug.Log(playButtons.Length);
         }
+
+
         
 
         for (int i = 0; i < priceButtons.Length; i++)
@@ -46,16 +70,16 @@ public class ButtonManager : MonoBehaviour
                 priceButton.SetActive(false);
                 playButton.SetActive(true);
             }
-        }
+        }*/
         
 
 
-        int arrayLength = 5;
+        /*int arrayLength = 5;
         Characters = new int[arrayLength];
 
         Characters[0] = 1;
 
-        Characters[1] = PlayerPrefs.GetInt("SpaceShip", 0);
+        Characters[1] = PlayerPrefs.GetInt("SpaceShip", 0);*/
 
     }
 
@@ -106,6 +130,7 @@ public class ButtonManager : MonoBehaviour
         {
             UnityEngine.Debug.Log("Not enough coins");
         }
+        PlayerPrefs.Save();
     }
     public void buyRocket(int price)
     {
@@ -121,6 +146,7 @@ public class ButtonManager : MonoBehaviour
         {
             UnityEngine.Debug.Log("Not enough coins");
         }
+        PlayerPrefs.Save();
     }
 
     public void buyUfo(int price)
@@ -137,6 +163,7 @@ public class ButtonManager : MonoBehaviour
         {
             UnityEngine.Debug.Log("Not enough coins");
         }
+        PlayerPrefs.Save();
     }
 
     public void buyDoubleCoins(int price)
@@ -153,6 +180,7 @@ public class ButtonManager : MonoBehaviour
         {
             UnityEngine.Debug.Log("Not enough coins");
         }
+        PlayerPrefs.Save();
     }
 
 
@@ -171,6 +199,62 @@ public class ButtonManager : MonoBehaviour
         foreach (GameObject button in PriceButtons)
         {
             button.SetActive(true);
+        }
+    }
+
+    private void checkRocketButtons()
+    {
+        if (PlayerPrefs.GetInt("SpaceShip", 0) == 1)
+        {
+            spaceShipPriceButton.SetActive(false);
+            spaceShipPlayButton.SetActive(true);
+        }
+        else
+        {
+            spaceShipPriceButton.SetActive(true);
+            spaceShipPlayButton.SetActive(false);
+        }
+    }
+
+    private void checkSpaceShipButtons()
+    {
+        if (PlayerPrefs.GetInt("SpaceShip", 0) == 1)
+        {
+            spaceShipPriceButton.SetActive(false);
+            spaceShipPlayButton.SetActive(true);
+        }
+        else
+        {
+            spaceShipPriceButton.SetActive(true);
+            spaceShipPlayButton.SetActive(false);
+        }
+    }
+
+    private void checkUfoButtons()
+    {
+        if (PlayerPrefs.GetInt("Ufo", 0) == 1)
+        {
+            ufoPriceButton.SetActive(false);
+            ufoPlayButton.SetActive(true);
+        }
+        else
+        {
+            ufoPriceButton.SetActive(true);
+            ufoPlayButton.SetActive(false);
+        }
+    }
+
+    private void checkDoubeCoinsButtons()
+    {
+        if(PlayerPrefs.GetInt("DoubleCoins", 0) == 1)
+        {
+            doubleCoinsPriceButton.SetActive(false);
+            doubleCoinsPlayButton.SetActive(true);
+        }
+        else
+        {
+            doubleCoinsPriceButton.SetActive(true);
+            doubleCoinsPlayButton.SetActive(false);
         }
     }
 }

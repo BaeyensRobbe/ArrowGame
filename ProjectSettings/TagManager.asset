@@ -20,6 +20,7 @@ TagManager:
   - DefaultPlay
   - Play
   - Price
+  - ShopContent
   layers:
   - Default
   - TransparentFX
