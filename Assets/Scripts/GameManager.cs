@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
 
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
+    private Vector2 currentPosition;
+
+    private bool isTouching;
+  
 
     CanvasHandler canvasHandler;
     
@@ -54,7 +58,9 @@ public class GameManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     touchStartPos = Input.mousePosition;
+                    isTouching = true;
                 }
+                
 
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -66,6 +72,21 @@ public class GameManager : MonoBehaviour
                         
                         UnityEngine.Debug.Log("Slight swipe detected!");
                         StartGame();
+                    }
+                } else if (isTouching)
+                {
+                    currentPosition = Input.mousePosition;
+                    if (currentPosition != touchStartPos)
+                    {
+                        touchEndPos = Input.mousePosition;
+                        float swipeDistance = Vector2.Distance(touchStartPos, touchEndPos);
+
+                        if (swipeDistance >= minSwipeDistance)
+                        {
+
+                            UnityEngine.Debug.Log("Slight swipe detected!");
+                            StartGame();
+                        }
                     }
                 }
 

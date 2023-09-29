@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -98,4 +98,4 @@ public class Joystick : MonoBehaviour
         minY = bottomLeft.y + buffer;
         maxY = topRight.y - buffer;
     }
-}
+}*/
