@@ -19,6 +19,8 @@ public class EnemyTargetPlayer : MonoBehaviour
     private float cameraMinY;
     private float cameraMaxY;
 
+    
+
     private ChainSpawner chainspawner;
 
     void Start()
@@ -138,5 +140,27 @@ public class EnemyTargetPlayer : MonoBehaviour
     {
         yield return new WaitForSeconds(delayTime); // Wait for 1.5 seconds.
         canMove = true; // Set the flag to allow movement after the delay.
+    }
+
+    public void FreezeEnemy()
+    {
+        moveSpeed = 0.2f;
+        UnFreezeEnemy();
+    }
+    public void UnFreezeEnemy()
+    {
+        StartCoroutine(ResetMoveSpeedAfterTime(3f));
+    }
+
+    private IEnumerator ResetMoveSpeedAfterTime(float delayInSeconds)
+    {
+        UnityEngine.Debug.Log("Freezing enemy");
+        // Wait for the specified delay
+        yield return new WaitForSeconds(delayInSeconds);
+        UnityEngine.Debug.Log("Resetting move speed");
+        // Change the variable after the delay
+        moveSpeed = 0.8f;
+
+        // You can perform any other actions here after the delay if needed
     }
 }

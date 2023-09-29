@@ -135,6 +135,19 @@ public class CollisionHandler : MonoBehaviour
             Destroy(collision.gameObject);
             isShielded = true;
         }
+        else if (collision.gameObject.CompareTag("FreezeIcon"))
+        {
+            /* insert panel visibilty*/
+            EnemyTargetPlayer[] enemyplayers = GameObject.FindObjectsOfType<EnemyTargetPlayer>();
+            foreach (EnemyTargetPlayer enemyScript in enemyplayers)
+            {
+                if (enemyScript != null)
+                {
+                    enemyScript.FreezeEnemy();
+                    Destroy(collision.gameObject);
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D trigger2D)
