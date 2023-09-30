@@ -1074,6 +1074,7 @@ RectTransform:
   - {fileID: 989269378}
   - {fileID: 2080749460}
   - {fileID: 46297142}
+  - {fileID: 1649565923}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1194,7 +1195,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.71997154, g: 0.7238735, b: 0.745283, a: 0.99607843}
+  m_BackGroundColor: {r: 0.72156864, g: 0.7254902, b: 0.74509805, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1262,18 +1263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80fab372706df6c45a17029099288927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1143901950}
-  speed: 7
-  touchStart: 0
-  pointA: {x: 0, y: 0}
-  pointB: {x: 0, y: 0}
-  minX: 0
-  maxX: 0
-  minY: 0
-  maxY: 0
-  buffer: 0.1
-  chainspawner: {fileID: 0}
-  spriteRenderer: {fileID: 0}
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1738,6 +1727,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 416.59}
   m_SizeDelta: {x: 0, y: 833.17004}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &688776635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 688776636}
+  m_Layer: 0
+  m_Name: BombIcon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &688776636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688776635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.0597706, y: 4.3265276, z: 0.029721903}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &736750080
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,6 +2510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.5
+  rotationSpeed: 10
 --- !u!114 &1143901960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3202,6 +3223,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629980338}
   m_CullTransparentMesh: 1
+--- !u!1 &1649565922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1649565923}
+  - component: {fileID: 1649565925}
+  - component: {fileID: 1649565924}
+  m_Layer: 5
+  m_Name: FreezePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1649565923
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649565922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 456175063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -0.12866211}
+  m_SizeDelta: {x: 0, y: -0.25732}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1649565924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649565922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6117647}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 864b5f740bd23cb42b90af2e01ee14ea, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1649565925
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649565922}
+  m_CullTransparentMesh: 1
 --- !u!1 &1697624369
 GameObject:
   m_ObjectHideFlags: 0
@@ -3739,7 +3835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.40055087, g: 0.38319686, b: 0.6509434, a: 0.5254902}
+  m_Color: {r: 0.40055087, g: 0.38319686, b: 0.6509434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3784,7 +3880,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 1817389617
+  m_SortingLayerID: -1513325619
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1894875999
@@ -3948,6 +4044,7 @@ MonoBehaviour:
   - {fileID: 825198368916749116, guid: 11f6ee9aa252bb9428b5d43f0c91d9fc, type: 3}
   - {fileID: 5659768569118269120, guid: ccbba3cd300affb48ae9c8f975d9c497, type: 3}
   - {fileID: 6656222654496717183, guid: be6dba64f3e7005448457b9413657d8b, type: 3}
+  - {fileID: 1923697091362546050, guid: a290841fddb612b4da4b2c4e40fc2342, type: 3}
   initialSpawnRate: 7
   minDistanceToPlayer: 3
   blockingUIElements:
@@ -4160,12 +4257,16 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 7e8f0a8c66157fe4da3efcf8b1b7be2a, type: 3}
     - target: {fileID: 8535097384995840107, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
       propertyPath: m_SortingLayer
-      value: -2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8535097384995840107, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1817389617
+      value: -1513325619
       objectReference: {fileID: 0}
+    - target: {fileID: 8618791886795786237, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
+      propertyPath: freezePanel
+      value: 
+      objectReference: {fileID: 1649565924}
     - target: {fileID: 8618791886795786237, guid: d273ecf3a3482a14486a09fd2807fbba, type: 3}
       propertyPath: shieldPrefab
       value: 
@@ -4686,3 +4787,4 @@ SceneRoots:
   - {fileID: 1159868405}
   - {fileID: 925912515}
   - {fileID: 1753449756}
+  - {fileID: 688776636}

@@ -10,6 +10,9 @@ public class DragMovement : MonoBehaviour
     private bool isDragging = false;
 
     public float moveSpeed = 5.0f;
+    public float rotationSpeed = 10.0f; // Adjust this to control the rotation speed
+
+    private float targetAngle; // Store the target angle
 
     private void Start()
     {
@@ -34,16 +37,20 @@ public class DragMovement : MonoBehaviour
         {
             Vector2 touchCurrentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 offset = touchCurrentPos - touchStartPos;
-            Vector2 offsetLast = touchCurrentPos - lastPosition;
+            Vector2 currentPos = transform.position;
+            Vector2 newPosition = characterStartPosition + offset;
+            Vector2 offsetRotation = newPosition - currentPos;
 
             // Calculate the angle of movement and apply it as rotation
-            if (offsetLast != Vector2.zero)
+            if (offsetRotation != Vector2.zero)
             {
-                float angle = Mathf.Atan2(offsetLast.y, offsetLast.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+                targetAngle = Mathf.Atan2(offsetRotation.y, offsetRotation.x) * Mathf.Rad2Deg;
             }
 
-            Vector2 newPosition = characterStartPosition + offset;
+            // Apply a smooth rotation using lerp
+            float currentAngle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, currentAngle));
+
             lastPosition = transform.position;
             transform.position = newPosition;
         }

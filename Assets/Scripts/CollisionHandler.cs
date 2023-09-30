@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class CollisionHandler : MonoBehaviour
 {
@@ -28,6 +30,8 @@ public class CollisionHandler : MonoBehaviour
     private Vector3 playerSpawnPosition = new Vector3(0f,0f, 0f);
     private int highScore;
     public GameObject warningPrefab;
+    public Image freezePanel;
+    private float freezeOpacity;
 
 
 
@@ -40,6 +44,7 @@ public class CollisionHandler : MonoBehaviour
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         timerscript = GameObject.Find("GameManager").GetComponent<TimerScript>();
         enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
+        freezePanel.gameObject.SetActive(false);
 
     }
 
@@ -139,6 +144,8 @@ public class CollisionHandler : MonoBehaviour
         {
             /* insert panel visibilty*/
             EnemyTargetPlayer[] enemyplayers = GameObject.FindObjectsOfType<EnemyTargetPlayer>();
+            freezePanel.gameObject.SetActive(true);
+            StartCoroutine(ShowFreezePanel());
             foreach (EnemyTargetPlayer enemyScript in enemyplayers)
             {
                 if (enemyScript != null)
@@ -176,6 +183,12 @@ public class CollisionHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         isShielded = false;
+    }
+
+    private IEnumerator ShowFreezePanel()
+    {
+        yield return new WaitForSeconds(3f);
+        freezePanel.gameObject.SetActive(false);
     }
 
 }
