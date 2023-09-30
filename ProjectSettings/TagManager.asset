@@ -21,6 +21,10 @@ TagManager:
   - Play
   - Price
   - ShopContent
+  - FreezeIcon
+  - BombIcon
+  - FireExplosion
+  - Header
   layers:
   - Default
   - TransparentFX
@@ -66,4 +70,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2781641677
+    locked: 0
+  - name: UpperUI
+    uniqueID: 834906341
     locked: 0

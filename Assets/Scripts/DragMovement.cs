@@ -49,7 +49,10 @@ public class DragMovement : MonoBehaviour
 
             // Apply a smooth rotation using lerp
             float currentAngle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+            if (currentPos != newPosition)
+            {
             transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, currentAngle));
+            }
 
             lastPosition = transform.position;
             transform.position = newPosition;

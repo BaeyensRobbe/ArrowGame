@@ -206,13 +206,13 @@ public class ButtonManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("SpaceShip", 0) == 1)
         {
-            spaceShipPriceButton.SetActive(false);
-            spaceShipPlayButton.SetActive(true);
+            rocketPriceButton.SetActive(false);
+            rocketPlayButton.SetActive(true);
         }
         else
         {
-            spaceShipPriceButton.SetActive(true);
-            spaceShipPlayButton.SetActive(false);
+            rocketPriceButton.SetActive(true);
+            rocketPlayButton.SetActive(false);
         }
     }
 

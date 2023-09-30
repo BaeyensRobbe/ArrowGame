@@ -25,7 +25,7 @@ public class ShieldPowerUp : MonoBehaviour
         }*/
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (playerTransform != null)
         {

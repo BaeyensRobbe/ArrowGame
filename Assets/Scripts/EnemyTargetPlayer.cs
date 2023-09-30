@@ -163,4 +163,12 @@ public class EnemyTargetPlayer : MonoBehaviour
 
         // You can perform any other actions here after the delay if needed
     }
+
+    private void OnCollisionEnter2D(Collision2D collision2D)
+    {
+        if (collision2D.gameObject.CompareTag("FireExplosion"))
+        {
+            EnemyDies();
+        }
+    }
 }

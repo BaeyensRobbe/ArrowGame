@@ -33,6 +33,8 @@ public class CollisionHandler : MonoBehaviour
     public Image freezePanel;
     private float freezeOpacity;
 
+    public GameObject explosionPrefab; 
+
 
 
     private void Start()
@@ -154,6 +156,11 @@ public class CollisionHandler : MonoBehaviour
                     Destroy(collision.gameObject);
                 }
             }
+        }
+        else if (collision.gameObject.CompareTag("BombIcon"))
+        {
+            Instantiate(explosionPrefab, collision.gameObject.transform.position, Quaternion.identity);
+            Destroy(collision.gameObject);
         }
     }
 

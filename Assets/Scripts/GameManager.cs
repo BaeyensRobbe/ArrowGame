@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private Vector2 currentPosition;
 
     private bool isTouching;
+
+    public AudioSource backgroundMusic;
   
 
     CanvasHandler canvasHandler;
@@ -158,6 +160,7 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         isGameOver = false;
         Time.timeScale = 1f;
+        backgroundMusic.Play();
     }
 
     public void EndGame()
@@ -167,6 +170,7 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         isStartMenu = false;
         Time.timeScale = 0f;
+        backgroundMusic.Stop();
     }
 
     public void PauseGame()
