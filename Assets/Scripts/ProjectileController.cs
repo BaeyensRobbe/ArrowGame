@@ -18,7 +18,7 @@ public class ProjectileController : MonoBehaviour
 
     private void Update()
     {
-        // Calculate the movement vector based on the object's forward direction
+        
         transform.position += transform.up * moveSpeed * Time.deltaTime;
     }
 
@@ -28,6 +28,10 @@ public class ProjectileController : MonoBehaviour
         {
             enemyTargetPlayer = other.gameObject.GetComponent<EnemyTargetPlayer>();
             enemyTargetPlayer.EnemyDies();
+            if (gameObject.CompareTag("AKBullet"))
+            {
+                Destroy(gameObject);
+            }
             
         }
     }

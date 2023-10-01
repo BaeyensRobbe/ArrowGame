@@ -24,6 +24,7 @@ public class CollisionHandler : MonoBehaviour
     CoinsController coinsController;
     DestroyObject destroyObject;
     TimerScript timerscript;
+    ShootingProjectile shootingProjectile;
     private bool isChainsaw = false;
     private bool powerUpActive = false;
     public Vector3 spawnPosition = new Vector3(-6f, 0f, 0f);
@@ -33,7 +34,8 @@ public class CollisionHandler : MonoBehaviour
     public Image freezePanel;
     private float freezeOpacity;
 
-    public GameObject explosionPrefab; 
+    public GameObject explosionPrefab;
+    public GameObject coinAnimationPrefab;
 
 
 
@@ -46,6 +48,7 @@ public class CollisionHandler : MonoBehaviour
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         timerscript = GameObject.Find("GameManager").GetComponent<TimerScript>();
         enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
+        shootingProjectile = gameObject.GetComponent<ShootingProjectile>();
         freezePanel.gameObject.SetActive(false);
 
     }
@@ -134,7 +137,9 @@ public class CollisionHandler : MonoBehaviour
         else if (collision.gameObject.CompareTag("Coin"))
         {
             coinsController.IncrementCoinCount(100);
+            Instantiate(coinAnimationPrefab, collision.gameObject.transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
+            
         }
         else if (collision.gameObject.CompareTag("ShieldIcon"))
         {
@@ -160,6 +165,11 @@ public class CollisionHandler : MonoBehaviour
         else if (collision.gameObject.CompareTag("BombIcon"))
         {
             Instantiate(explosionPrefab, collision.gameObject.transform.position, Quaternion.identity);
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("ShootIcon"))
+        {
+            shootingProjectile.AKPowerupActivate();
             Destroy(collision.gameObject);
         }
     }

@@ -27,9 +27,12 @@ public class GameManager : MonoBehaviour
     private bool isTouching;
 
     public AudioSource backgroundMusic;
-  
 
+ 
     CanvasHandler canvasHandler;
+    public Image freezePanel;
+    ShootingProjectile shootingProjectile;
+    private bool freezeAnimationPaused = false;
     
     
     
@@ -46,6 +49,7 @@ public class GameManager : MonoBehaviour
         
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         canvasHandler = GameObject.Find("GameManager").GetComponent<CanvasHandler>();
+        shootingProjectile = GameObject.Find("Player").GetComponent<ShootingProjectile>();
         
 
     }
@@ -151,6 +155,7 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         isPlaying = false;
         isStartMenu = true;
+        freezeAnimationPaused = false;
     }
 
     public void StartGame()
@@ -160,7 +165,8 @@ public class GameManager : MonoBehaviour
         isPaused = false;
         isGameOver = false;
         Time.timeScale = 1f;
-        backgroundMusic.Play();
+        StartCoroutine(FadeInBackgroundMusic());
+        freezeAnimationPaused = false;
     }
 
     public void EndGame()
@@ -171,6 +177,10 @@ public class GameManager : MonoBehaviour
         isStartMenu = false;
         Time.timeScale = 0f;
         backgroundMusic.Stop();
+        freezePanel.gameObject.SetActive(false);
+        shootingProjectile.AkPowerUpDeactivate();
+        freezeAnimationPaused = false;
+
     }
 
     public void PauseGame()
@@ -180,6 +190,13 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         isGameOver = false;
         Time.timeScale = 0f;
+        backgroundMusic.Pause();
+        if (freezePanel.gameObject.activeSelf)
+        {
+            freezePanel.gameObject.SetActive(false);
+            freezeAnimationPaused = true;
+        }
+        
     }
 
     public void ResumeGame()
@@ -188,7 +205,15 @@ public class GameManager : MonoBehaviour
         isPlaying = true;
         isPaused = false;
         isGameOver = false;
+
+        if (freezeAnimationPaused)
+        {
+            freezePanel.gameObject.SetActive(true);
+        }
+
         Time.timeScale = 1f;
+        StartCoroutine(FadeInBackgroundMusic());
+        
     }
 
     public void CanvasHandler()
@@ -199,5 +224,27 @@ public class GameManager : MonoBehaviour
     private void SetCanvasStart()
     {
         canvasHandler.SetStart();
+    }
+
+    private IEnumerator FadeInBackgroundMusic()
+    {
+        
+        float startVolume = 0.0f;
+        float endVolume = 1.0f;
+        float fadeDuration = 2.0f; // Adjust the fade-in duration as needed
+        float currentTime = 0.0f;
+
+        // Start playing the background music
+        backgroundMusic.Play();
+
+        while (currentTime < fadeDuration)
+        {
+            currentTime += Time.unscaledDeltaTime;
+            float normalizedTime = currentTime / fadeDuration;
+            backgroundMusic.volume = Mathf.Lerp(startVolume, endVolume, normalizedTime);
+            yield return null;
+        }
+
+        backgroundMusic.volume = endVolume; // Ensure the volume is set to the final value
     }
 }

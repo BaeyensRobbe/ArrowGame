@@ -25,6 +25,8 @@ TagManager:
   - BombIcon
   - FireExplosion
   - Header
+  - ShootIcon
+  - AKBullet
   layers:
   - Default
   - TransparentFX

@@ -5,16 +5,34 @@ using UnityEngine;
 public class ShootingProjectile : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public GameObject projectilePrefab;
+    [Header("General")]
     public Transform firePoint;
-    public float shootInterval = 5f; // Time between shots in seconds
+
+    [Space]
+
+    [Header("Bullet Character")]
+    public GameObject projectilePrefab;
+    public float shootInterval = 5f;
     private float timeSinceLastShot = 0f;
     private float speed = 5f;
 
+    [Space]
 
+    [Header("Bomb Character")]
     public GameObject bombPrefab;
     public float bombInterval = 5f;
     private float timeSinceLastBomb = 0f;
+
+    [Space]
+
+    [Header("AK-47 powerup")]
+    public GameObject akBulletPrefab;
+    public float ak47ShootInterval;
+    public float ak47Duration;
+    private float timeSinceLastAk47Bullet = 0f;
+    private bool isAKPowerup = false;
+    
+
 
     private void Start()
     {
@@ -30,7 +48,7 @@ public class ShootingProjectile : MonoBehaviour
             // Check if it's time to shoot
             if (timeSinceLastShot >= shootInterval)
             {
-                Shoot();
+                Shoot(projectilePrefab);
                 timeSinceLastShot = 0f; // Reset the timer
             }
         }
@@ -44,12 +62,22 @@ public class ShootingProjectile : MonoBehaviour
                 timeSinceLastBomb = 0f;
             }
         }
+
+        if (isAKPowerup)
+        {
+            timeSinceLastAk47Bullet += Time.deltaTime;
+            if (timeSinceLastAk47Bullet >= ak47ShootInterval)
+            {
+                Shoot(akBulletPrefab);
+                timeSinceLastAk47Bullet = 0f;
+            }
+        }
         
     }
 
-    private void Shoot()
+    private void Shoot(GameObject prefab)
     {
-        if (projectilePrefab == null || firePoint == null)
+        if (prefab == null || firePoint == null)
         {
             UnityEngine.Debug.LogWarning("Missing components in the Shooting script.");
             return;
@@ -62,7 +90,13 @@ public class ShootingProjectile : MonoBehaviour
 
         Quaternion characterRotation = transform.rotation;
         characterRotation *= Quaternion.Euler(0f, 0f, -90f);
-        GameObject newProjectile = Instantiate(projectilePrefab, firePoint.position, characterRotation);
+        
+        GameObject newProjectile = Instantiate(prefab, firePoint.position, characterRotation);
+        if (prefab == akBulletPrefab)
+        {
+            GameObject newProjectile2 = Instantiate(prefab, firePoint.position, characterRotation * Quaternion.Euler(0f,0f,-20f));
+            GameObject newProjectile3 = Instantiate(prefab, firePoint.position, characterRotation * Quaternion.Euler(0f, 0f, 20f));
+        }
 
        
     }
@@ -74,5 +108,22 @@ public class ShootingProjectile : MonoBehaviour
             UnityEngine.Debug.Log("Bombprefab is null");
         }
         GameObject bomb = Instantiate(bombPrefab, transform.position, Quaternion.identity);
+    }
+
+    public void AKPowerupActivate()
+    {
+        isAKPowerup = true;
+        StartCoroutine(DeactivateAfterTime(ak47Duration));
+    }
+
+    public void AkPowerUpDeactivate()
+    {
+        isAKPowerup = false;
+    }
+
+    private IEnumerator DeactivateAfterTime(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        isAKPowerup = false;
     }
 }

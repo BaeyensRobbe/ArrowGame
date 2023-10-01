@@ -14,9 +14,21 @@ public class DragMovement : MonoBehaviour
 
     private float targetAngle; // Store the target angle
 
+    private Vector2 screenBounds;
+    private float headerHeight;
+    private float playerWidth;
+    private float playerHeight;
+    public RectTransform rectTransform;
+    public float offsetMultiplier = 1.5f;
+
     private void Start()
     {
         characterStartPosition = transform.position;
+
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        headerHeight = rectTransform.rect.height / 100;
+        playerWidth = GetComponent<SpriteRenderer>().bounds.size.x / 2;
+        playerHeight = GetComponent<SpriteRenderer>().bounds.size.y / 2;
     }
 
     private void Update()
@@ -38,7 +50,15 @@ public class DragMovement : MonoBehaviour
             Vector2 touchCurrentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 offset = touchCurrentPos - touchStartPos;
             Vector2 currentPos = transform.position;
+            offset *= offsetMultiplier;
             Vector2 newPosition = characterStartPosition + offset;
+            
+
+            Vector3 viewPos = newPosition;
+            viewPos.x = Mathf.Clamp(viewPos.x, (screenBounds.x - playerWidth) * -1, screenBounds.x - playerWidth);
+            viewPos.y = Mathf.Clamp(viewPos.y, (screenBounds.y - playerHeight) * -1, screenBounds.y - headerHeight - playerHeight);
+            newPosition = viewPos;
+
             Vector2 offsetRotation = newPosition - currentPos;
 
             // Calculate the angle of movement and apply it as rotation
