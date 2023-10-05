@@ -204,7 +204,7 @@ public class ButtonManager : MonoBehaviour
 
     private void checkRocketButtons()
     {
-        if (PlayerPrefs.GetInt("SpaceShip", 0) == 1)
+        if (PlayerPrefs.GetInt("Rocket", 0) == 1)
         {
             rocketPriceButton.SetActive(false);
             rocketPlayButton.SetActive(true);

@@ -18,4 +18,9 @@ public class SceneChanger : MonoBehaviour
         SceneManager.LoadScene("Game");
         
     }
+
+    public void ChangeToCharacterShopScene()
+    {
+        SceneManager.LoadScene("CharacterShop");
+    }
 }

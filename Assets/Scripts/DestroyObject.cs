@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyObject : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject droppedBombExplosion;
     public void DestroyThisObject()
     {
         Destroy(gameObject);
@@ -16,5 +16,12 @@ public class DestroyObject : MonoBehaviour
         {
             Destroy(transform.parent.gameObject);
         }
+    }
+
+    public void BombExplosion()
+    {
+        Instantiate(droppedBombExplosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+        
     }
 }

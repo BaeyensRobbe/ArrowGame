@@ -16,12 +16,6 @@ public class ShootingProjectile : MonoBehaviour
     private float timeSinceLastShot = 0f;
     private float speed = 5f;
 
-    [Space]
-
-    [Header("Bomb Character")]
-    public GameObject bombPrefab;
-    public float bombInterval = 5f;
-    private float timeSinceLastBomb = 0f;
 
     [Space]
 
@@ -31,7 +25,21 @@ public class ShootingProjectile : MonoBehaviour
     public float ak47Duration;
     private float timeSinceLastAk47Bullet = 0f;
     private bool isAKPowerup = false;
-    
+
+    [Space]
+
+    [Header("NinjaStar Character")]
+    public GameObject ninjaStarPrefab;
+    public float ninjaStarInterval;
+    public int numberOfStars;
+    private float timeSinceLastNinjaStar = 0f;
+
+    [Space]
+
+    [Header("BombDropper Character")]
+    public GameObject droppedBombPrefab;
+    public float droppedBombInterval;
+    private float timeSinceLastBombDrop = 0f;
 
 
     private void Start()
@@ -48,20 +56,34 @@ public class ShootingProjectile : MonoBehaviour
             // Check if it's time to shoot
             if (timeSinceLastShot >= shootInterval)
             {
+                UnityEngine.Debug.Log("function is called wrong");
                 Shoot(projectilePrefab);
                 timeSinceLastShot = 0f; // Reset the timer
             }
         }
 
-        if(PlayerPrefs.GetInt("Skin", 0) == 4)
+        if (PlayerPrefs.GetInt("Skin", 0) == 2)
         {
-            timeSinceLastBomb += Time.deltaTime;
-            if (timeSinceLastBomb >= bombInterval)
+            timeSinceLastNinjaStar += Time.deltaTime;
+            if (timeSinceLastNinjaStar >= ninjaStarInterval)
             {
-                DropBomb();
-                timeSinceLastBomb = 0f;
+                UnityEngine.Debug.Log("function is called right");
+                Shoot(ninjaStarPrefab);
+                timeSinceLastNinjaStar = 0f;
             }
         }
+
+        if(PlayerPrefs.GetInt("Skin", 0) == 3)
+        {
+            timeSinceLastBombDrop += Time.deltaTime;
+            if (timeSinceLastBombDrop >= droppedBombInterval)
+            {
+                DropBomb();
+                timeSinceLastBombDrop = 0f;
+            }
+        }
+
+        
 
         if (isAKPowerup)
         {
@@ -90,12 +112,28 @@ public class ShootingProjectile : MonoBehaviour
 
         Quaternion characterRotation = transform.rotation;
         characterRotation *= Quaternion.Euler(0f, 0f, -90f);
+        if (prefab == projectilePrefab)
+        {
+            GameObject newProjectile = Instantiate(prefab, firePoint.position, characterRotation);
+            UnityEngine.Debug.Log("why is this even called?");
+        }
         
-        GameObject newProjectile = Instantiate(prefab, firePoint.position, characterRotation);
         if (prefab == akBulletPrefab)
         {
+            GameObject newProjectile = Instantiate(prefab, firePoint.position, characterRotation);
             GameObject newProjectile2 = Instantiate(prefab, firePoint.position, characterRotation * Quaternion.Euler(0f,0f,-20f));
             GameObject newProjectile3 = Instantiate(prefab, firePoint.position, characterRotation * Quaternion.Euler(0f, 0f, 20f));
+        }
+        if (prefab == ninjaStarPrefab)
+        {
+            for (int i = 0; i < numberOfStars; i++)
+            {
+                UnityEngine.Debug.Log("wwrong prefab is spawned smh?");
+                float angle = i * (360f /  numberOfStars);
+                float angleInRadians = angle * Mathf.Deg2Rad;
+
+                Instantiate(prefab, transform.position, Quaternion.Euler(0f, 0f, angle));
+            }
         }
 
        
@@ -103,11 +141,11 @@ public class ShootingProjectile : MonoBehaviour
 
     private void DropBomb()
     {
-        if (bombPrefab == null)
+        if (droppedBombPrefab == null)
         {
             UnityEngine.Debug.Log("Bombprefab is null");
         }
-        GameObject bomb = Instantiate(bombPrefab, transform.position, Quaternion.identity);
+        GameObject bomb = Instantiate(droppedBombPrefab, transform.position, Quaternion.identity);
     }
 
     public void AKPowerupActivate()
